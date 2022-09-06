@@ -5,7 +5,7 @@ import News from './components/News';
 import { Route, Routes } from 'react-router-dom';
 
 export default class App extends Component {
-  pageSize = 20;
+  pageSize = 5;
   render() {
     return (
       <div>
