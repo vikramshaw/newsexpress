@@ -8,7 +8,7 @@ export class News extends Component {
 
   static defaultProps = {
     country: "in",
-    pageSize: 8,
+    pageSize: 8
   }
 
   static propTypes = {
@@ -28,9 +28,12 @@ export class News extends Component {
   }
 
   async updateNews() {
+    this.props.setProgress(10);
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apikey=0a5d16857ef9469bab2d78bd87f423cc&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
+    this.props.setProgress(30);
     let data = await fetch(url);
+    this.props.setProgress(70);
     let parsedData = await data.json()
     console.log("cdm", parsedData);
     this.setState({
@@ -38,6 +41,7 @@ export class News extends Component {
       totalResults: parsedData.totalResults,
       loading: false
     })
+    this.props.setProgress(100);
   }
 
   async componentDidMount() {
@@ -73,9 +77,9 @@ export class News extends Component {
             <div className="row mx-6">
               {this.state.articles.map((element) => {
                 return <div className="col-md-4" key={element.url}>
-                  <NewsItem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""}
-                    urlToImage={element.urlToImage} newsUrl={element.url} author={element.author ? element.author : "unknown"} date={element.publishedAt} source={element.source.name} />
-                </div>
+                          <NewsItem title={element.title ? element.title.slice(0, 45) : ""} description={element.description ? element.description.slice(0, 88) : ""}
+                            urlToImage={element.urlToImage} newsUrl={element.url} author={element.author ? element.author : "unknown"} date={element.publishedAt} source={element.source.name} />
+                        </div>
               })}
             </div>
           </div>
